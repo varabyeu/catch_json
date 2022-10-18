@@ -6,6 +6,11 @@ from .utils import get_valid_data
 
 
 async def get_json_data(article):
+    """Func to return a valid data from given url
+
+    Asyncronous function to got data from current session.
+    Use method get_valid_data to get valid data
+    """
     url = f"https://wbx-content-v2.wbstatic.net/ru/{article}.json"
     async with aiohttp.ClientSession() as session:
         json_product_data = []
@@ -20,6 +25,12 @@ async def get_json_data(article):
 
 
 def distribute_tasks(data: list):
+    """Distributes tasks
+
+    To make async func to get data, the func creates a task list
+    and get data from every given article. Works with xlsx files and with
+    a just one article
+    """
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     task_list = []

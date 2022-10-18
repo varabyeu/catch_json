@@ -8,7 +8,11 @@ from .utils import get_articles
 
 
 class FileUploadView(APIView):
+    """View to upload xlsx file
 
+    Use only post method to attach a file.
+    This view func manages a parsing process
+    """
     def post(self, request):
         serializer = FileSerializer(data=request.FILES)
         serializer.is_valid(raise_exception=True)
@@ -30,6 +34,10 @@ class FileUploadView(APIView):
 
 
 class ArticleView(APIView):
+    """View to work with alone article
+
+    Use only post to send article to parse data
+    """
     def post(self, request):
         serializer = OneArticleSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

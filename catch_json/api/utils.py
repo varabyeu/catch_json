@@ -1,9 +1,15 @@
 from openpyxl import load_workbook
+from pydantic import ValidationError
 
 from .models import ProductData
 
 
 def get_articles(file):
+    """Func returns lists of a correct and incorrect articles
+
+    If an article data type is not an integer, the article moves to a list_error.
+    If an article data type is integer, the article moves to a list_articles
+    """
     workbook = load_workbook(filename=file).active
     list_articles = []
     list_error_articles = []
@@ -23,6 +29,10 @@ def get_articles(file):
 
 
 def get_valid_data(response):
+    """Func to valid data
+
+    Validate data by pydantic's ProdductData
+    """
     try:
         valid_data = ProductData.parse_obj(response)
         return {

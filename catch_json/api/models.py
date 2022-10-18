@@ -2,6 +2,10 @@ from pydantic import BaseModel
 
 
 class ProductData(BaseModel):
+    """Pydantic Product Data
+
+    Is made to fast parse a given json
+    """
     nm_id: int
     brand_name: str
     imt_name: str
