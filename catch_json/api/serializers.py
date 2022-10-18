@@ -13,4 +13,11 @@ class FileSerializer(serializers.Serializer):
     )
 
     class Meta:
-        fields = ["file"]
+        fields = ['file']
+
+
+class OneArticleSerializer(serializers.Serializer):
+    article = serializers.IntegerField(required=True)
+
+    class Meta:
+        fields = ['article']

@@ -25,7 +25,7 @@ def distribute_tasks(data: list):
     task_list = []
     for item in data:
         task_list.append(get_json_data(item))
-    ran_tasks: list = loop.run_until_complete(asyncio.gather(*task_list))
+    ran_tasks = loop.run_until_complete(asyncio.gather(*task_list))
     for result in ran_tasks:
         if result is None:
             ran_tasks.remove(result)

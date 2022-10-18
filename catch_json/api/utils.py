@@ -1,15 +1,6 @@
 from openpyxl import load_workbook
-from pydantic import BaseModel, ValidationError
 
-
-class ProductData(BaseModel):
-    nm_id: int
-    brand_name: str
-    imt_name: str
-
-    def __init__(self, **kwargs):
-        kwargs['brand_name'] = kwargs.get('selling').get('brand_name')
-        super().__init__(**kwargs)
+from .models import ProductData
 
 
 def get_articles(file):
@@ -33,12 +24,11 @@ def get_articles(file):
 
 def get_valid_data(response):
     try:
-        valid_data = ProductDataList.parse_obj(response)
-        return valid_data
+        valid_data = ProductData.parse_obj(response)
+        return {
+            'article': valid_data['nm_id'],
+            'brand': valid_data['brand_name'],
+            'title': valid_data['imt_name']
+        }
     except ValidationError as ve:
         print(f'Validation error during processing {response}')
-
-
-def get_needed_data(json):
-    print(json)
-    return None
