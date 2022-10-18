@@ -2,7 +2,7 @@ import asyncio
 import aiohttp
 from rest_framework import status
 
-from .utils import get_needed_data
+from .utils import get_valid_data
 
 
 async def get_json_data(article):
@@ -12,9 +12,9 @@ async def get_json_data(article):
         try:
             async with session.get(url) as response:
                 if response.status == status.HTTP_200_OK:
-                    full_product_data = await response.json()
-                    json_product_data.append(get_needed_data(full_product_data))
-            return json_product_data
+                    response_data = await response.json()
+                    valid_data = get_valid_data(response_data)
+                    return valid_data
         except aiohttp.ClientError as error:
             return error
 
@@ -25,5 +25,8 @@ def distribute_tasks(data: list):
     task_list = []
     for item in data:
         task_list.append(get_json_data(item))
-    ran_tasks = loop.run_until_complete(asyncio.gather(*task_list))
+    ran_tasks: list = loop.run_until_complete(asyncio.gather(*task_list))
+    for result in ran_tasks:
+        if result is None:
+            ran_tasks.remove(result)
     return ran_tasks

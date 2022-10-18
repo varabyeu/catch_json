@@ -21,6 +21,7 @@ class FileUploadView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         gathered_data = distribute_tasks(product_articles)
+        print(gathered_data[0][1])
         return Response({'data': gathered_data}, status=status.HTTP_200_OK)
 
 
